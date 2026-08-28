@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ProbeX</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #fff;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #1a1a2e;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 12px 15px;
+            color: #aaa;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+        }
+
+        .btn-logout {
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            flex: 1;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #00d4ff;
+        }
+
+        .tool-section {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-section h3 {
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .search-box button {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00d4ff, #7b2ff7);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .result-box {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            min-height: 50px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .pin-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .pin-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .pin-info {
+            padding: 10px;
+        }
+
+        .pin-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .pin-actions button {
+            padding: 8px 12px;
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .loading {
+            color: #00d4ff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error {
+            color: #ff4444;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .result-card h4 {
+            margin-bottom: 10px;
+            color: #00d4ff;
+        }
+
+        .result-card p {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        .result-card button {
+            margin-right: 10px;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            body {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">🔍 ProbeX</div>
+        <nav>
+            <a href="#" class="nav-item active">🏠 Dashboard</a>
+            <a href="#mobile" class="nav-item">📱 Mobile Info</a>
+            <a href="#email" class="nav-item">📧 Email Info</a>
+            <a href="#pinterest" class="nav-item">🖼️ Pinterest</a>
+            <a href="#terabox" class="nav-item">📦 TeraBox</a>
+            <a href="#social" class="nav-item">🎥 Social DL</a>
+            <a href="#upi" class="nav-item">💳 UPI Info</a>
+            <a href="#chat" class="nav-item">🤖 AI Chat</a>
+            <a href="#states" class="nav-item">📍 States</a>
+        </nav>
+        <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <h2>Welcome, <span id="userName">User</span></h2>
+            <img id="userAvatar" class="user-avatar" src="" alt="User">
+        </header>
+
+        <section id="mobile" class="tool-section">
+            <h3>📱 Mobile Number Info</h3>
+            <div class="search-box">
+                <input type="text" id="mobileInput" placeholder="Enter mobile number (e.g., 9928370161)">
+                <button onclick="searchMobile()">Search</button>
+            </div>
+            <div id="mobileResult" class="result-box"></div>
+        </section>
+
+        <section id="email" class="tool-section">
+            <h3>📧 Email Info</h3>
+            <div class="search-box">
+                <input type="email" id="emailInput" placeholder="Enter email address">
+                <button onclick="searchEmail()">Search</button>
+            </div>
+            <div id="emailResult" class="result-box"></div>
+        </section>
+
+        <section id="pinterest" class="tool-section">
+            <h3>🖼️ Pinterest Search</h3>
+            <div class="search-box">
+                <input type="text" id="pinInput" placeholder="Search images...">
+                <button onclick="searchPinterest()">Search</button>
+            </div>
+            <div id="pinResult" class="result-grid"></div>
+        </section>
+
+        <section id="terabox" class="tool-section">
+            <h3>📦 TeraBox Downloader</h3>
+            <div class="search-box">
+                <input type="text" id="teraInput" placeholder="Paste TeraBox link here...">
+                <button onclick="searchTeraBox()">Get Download Link</button>
+            </div>
+            <div id="teraResult" class="result-box"></div>
+        </section>
+
+        <section id="social" class="tool-section">
+            <h3>🎥 Social Media Downloader</h3>
+            <div class="search-box">
+                <input type="text" id="socialInput" placeholder="Paste YouTube/Instagram URL...">
+                <button onclick="searchSocial()">Download</button>
+            </div>
+            <div id="socialResult" class="result-box"></div>
+        </section>
+
+        <section id="upi" class="tool-section">
+            <h3>💳 UPI Info</h3>
+            <div class="search-box">
+                <input type="text" id="upiInput" placeholder="Enter UPI ID (e.g., name@upi)">
+                <button onclick="searchUPI()">Search</button>
+            </div>
+            <div id="upiResult" class="result-box"></div>
+        </section>
+
+        <section id="chat" class="tool-section">
+            <h3>🤖 AI Chat (Perplexity)</h3>
+            <div class="search-box">
+                <input type="text" id="chatInput" placeholder="Ask anything...">
+                <button onclick="askAI()">Ask</button>
+            </div>
+            <div id="chatResult" class="result-box"></div>
+        </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById('userName').textContent = user.displayName;
+                document.getElementById('userAvatar').src = user.photoURL;
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        }
+
+        async function searchMobile() {
+            const input = document.getElementById('mobileInput').value;
+            const resultBox = document.getElementById('mobileResult');
+            resultBox.innerHTML = '<div class="loading">Loading...</div>';
+            
+            try {
+                const response = await fetch(`https://your-backend.onrender.com/api/mobile?number=${input}`);
+                const data = await response.json();
+                
+                if (data.data && data.data.length > 0) {
+                    const info = data.data[0];
+                    resultBox.innerHTML = `
+                        <div class="result-card">
+                            <h4>👤 ${info.FULL_NAME}</h4>
+                            <p>📍 ${info.CUR_ADDRES}, ${info.CUR_ADDRE1 || ''}, ${info.CUR_CITY}, ${info.CUR_STATE} - ${info.CUR_PIN}</p>
+                            <p>📞 ${info.MOBILE}</p>
+                            <p>📧 ${info.EADDRESS}</p>
+                            <button onclick="downloadData('mobile')">📥 Download</button>
+                            <button onclick="copyData('mobile')">📋 Copy</button>
+                        </div>
+                    `;
+                } else {
+                    resultBox.innerHTML = '<div class="error">No data found</div>';
+                }
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">API Error - Check backend</div>';
+            }
+        }
+
+        async function searchEmail() {
+            const input = document.getElementById('emailInput').value;
+            const resultBox = document.getElementById('emailResult');
+            resultBox.innerHTML = '<div class="loading">Loading...</div>';
+            
+            try {
+                const response = await fetch(`https://your-backend.onrender.com/api/mobile?email=${input}`);
+                const data = await response.json();
+                
+                if (data.data && data.data.length > 0) {
+                    const info = data.data[0];
+                    resultBox.innerHTML = `
+                        <div class="result-card">
+                            <h4>👤 ${info.FULL_NAME}</h4>
+                            <p>📍 ${info.CUR_ADDRES}, ${info.CUR_ADDRE1 || ''}, ${info.CUR_CITY}, ${info.CUR_STATE} - ${info.CUR_PIN}</p>
+                            <p>📞 ${info.MOBILE}</p>
+                            <p>📧 ${info.EADDRESS}</p>
+                            <button onclick="downloadData('email')">📥 Download</button>
+                            <button onclick="copyData('email')">📋 Copy</button>
+                        </div>
+                    `;
+                } else {
+                    resultBox.innerHTML = '<div class="error">No data found</div>';
+                }
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">API Error</div>';
+            }
+        }
+
+        async function searchPinterest() {
+            const input = document.getElementById('pinInput').value;
+            const resultBox = document.getElementById('pinResult');
+            resultBox.innerHTML = '<div class="loading">Searching...</div>';
+            
+            try {
+                const response = await fetch(`https://your-backend.onrender.com/api/pinterest?search=${input}`);
+                const data = await response.json();
+                
+                if (data.data && data.data.pins) {
+                    resultBox.innerHTML = '';
+                    data.data.pins.forEach(pin => {
+                        if (pin.images && pin.images.orig) {
+                            const card = document.createElement('div');
+                            card.className = 'pin-card';
+                            card.innerHTML = `
+                                <img src="${pin.images.orig.url}" alt="${pin.title || 'Pinterest'}" loading="lazy">
+                                <div class="pin-info">
+                                    <p>${pin.title || 'No Title'}</p>
+                                    <p style="color:#aaa;font-size:12px;">By: ${pin.author?.full_name || 'Unknown'}</p>
+                                    <div class="pin-actions">
+                                        <button onclick="window.open('${pin.images.orig.url}', '_blank')">📥 Download</button>
+                                        <button onclick="window.open('${pin.url}', '_blank')">🔗 Open</button>
+                                    </div>
+                                </div>
+                            `;
+                            resultBox.appendChild(card);
+                        }
+                    });
+                } else {
+                    resultBox.innerHTML = '<div class="error">No images found</div>';
+                }
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">API Error</div>';
+            }
+        }
+
+        async function searchTeraBox() {
+            const input = document.getElementById('teraInput').value;
+            const resultBox = document.getElementById('teraResult');
+            resultBox.innerHTML = '<div class="loading">Fetching...</div>';
+            
+            try {
+                const response = await fetch(`https://your-backend.onrender.com/api/terabox?url=${encodeURIComponent(input)}`);
+                const data = await response.json();
+                
+                if (data.data && data.data.stream_url) {
+                    resultBox.innerHTML = `
+                        <div class="result-card">
+                            <h4>📹 ${data.data.title}</h4>
+                            <p>🆔 ID: ${data.data.id}</p>
+                            <button onclick="window.open('${data.data.stream_url}', '_blank')">📥 Download Video</button>
+                            <button onclick="window.open('${data.data.stream_url}', '_blank')">▶️ Watch Online</button>
+                        </div>
+                    `;
+                } else {
+                    resultBox.innerHTML = '<div class="error">No video found</div>';
+                }
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">API Error</div>';
+            }
+        }
+
+        async function searchSocial() {
+            const input = document.getElementById('socialInput').value;
+            const resultBox = document.getElementById('socialResult');
+            resultBox.innerHTML = '<div class="loading">Fetching...</div>';
+            
+            try {
+                const response = await fetch(`https://your-backend.onrender.com/api/social?url=${encodeURIComponent(input)}`);
+                const data = await response.json();
+                resultBox.innerHTML = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">API Error</div>';
+            }
+        }
+
+        async function searchUPI() {
+            const input = document.getElementById('upiInput').value;
+            const resultBox = document.getElementById('upiResult');
+            resultBox.innerHTML = '<div class="loading">Searching...</div>';
+            
+            try {
+                const response = await fetch(`https://your-backend.onrender.com/api/upi?id=${input}`);
+                const data = await response.json();
+                resultBox.innerHTML = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">API Error</div>';
+            }
+        }
+
+        async function askAI() {
+            const input = document.getElementById('chatInput').value;
+            const resultBox = document.getElementById('chatResult');
+            resultBox.innerHTML = '<div class="loading">Thinking...</div>';
+            
+            try {
+                const response = await fetch(`https://your-backend.onrender.com/api/chat?query=${encodeURIComponent(input)}`);
+                const data = await response.json();
+                resultBox.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">API Error</div>';
+            }
+        }
+
+        function downloadData(type) {
+            const content = document.getElementById(`${type}Result`).innerText;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${type}_result.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyData(type) {
+            const content = document.getElementById(`${type}Result`).innerText;
+            navigator.clipboard.writeText(content);
+            alert('Copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
