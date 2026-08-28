@@ -318,13 +318,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script>
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+  apiKey: "AIzaSyDW604GFPs_388u_agQ-0omCTuuwjq8BA0",
+  authDomain: "proex-tools.firebaseapp.com",
+  projectId: "proex-tools",
+  storageBucket: "proex-tools.firebasestorage.app",
+  messagingSenderId: "1022958761161",
+  appId: "1:1022958761161:web:d80262b7af25a374154918"
+};
 
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -350,7 +350,7 @@
             resultBox.innerHTML = '<div class="loading">Loading...</div>';
             
             try {
-                const response = await fetch(`https://your-backend.onrender.com/api/mobile?number=${input}`);
+                const response = await fetch(`https://alok-osint-tools.onrender.com/api/mobile?number=${input}`);
                 const data = await response.json();
                 
                 if (data.data && data.data.length > 0) {
@@ -379,7 +379,7 @@
             resultBox.innerHTML = '<div class="loading">Loading...</div>';
             
             try {
-                const response = await fetch(`https://your-backend.onrender.com/api/mobile?email=${input}`);
+                const response = await fetch(`https://alok-osint-tools.onrender.com/api/mobile?email=${input}`);
                 const data = await response.json();
                 
                 if (data.data && data.data.length > 0) {
@@ -408,7 +408,7 @@
             resultBox.innerHTML = '<div class="loading">Searching...</div>';
             
             try {
-                const response = await fetch(`https://your-backend.onrender.com/api/pinterest?search=${input}`);
+                const response = await fetch(`https://alok-osint-tools.onrender.com/api/pinterest?search=${input}`);
                 const data = await response.json();
                 
                 if (data.data && data.data.pins) {
@@ -445,7 +445,7 @@
             resultBox.innerHTML = '<div class="loading">Fetching...</div>';
             
             try {
-                const response = await fetch(`https://your-backend.onrender.com/api/terabox?url=${encodeURIComponent(input)}`);
+                const response = await fetch(`https://alok-osint-tools.onrender.com/api/terabox?url=${encodeURIComponent(input)}`);
                 const data = await response.json();
                 
                 if (data.data && data.data.stream_url) {
@@ -471,7 +471,7 @@
             resultBox.innerHTML = '<div class="loading">Fetching...</div>';
             
             try {
-                const response = await fetch(`https://your-backend.onrender.com/api/social?url=${encodeURIComponent(input)}`);
+                const response = await fetch(`https://alok-osint-tools.onrender.com/api/social?url=${encodeURIComponent(input)}`);
                 const data = await response.json();
                 resultBox.innerHTML = JSON.stringify(data, null, 2);
             } catch (error) {
@@ -485,7 +485,7 @@
             resultBox.innerHTML = '<div class="loading">Searching...</div>';
             
             try {
-                const response = await fetch(`https://your-backend.onrender.com/api/upi?id=${input}`);
+                const response = await fetch(`https://alok-osint-tools.onrender.com/api/upi?id=${input}`);
                 const data = await response.json();
                 resultBox.innerHTML = JSON.stringify(data, null, 2);
             } catch (error) {
@@ -499,7 +499,7 @@
             resultBox.innerHTML = '<div class="loading">Thinking...</div>';
             
             try {
-                const response = await fetch(`https://your-backend.onrender.com/api/chat?query=${encodeURIComponent(input)}`);
+                const response = await fetch(`https://alok-osint-tools.onrender.com/api/chat?query=${encodeURIComponent(input)}`);
                 const data = await response.json();
                 resultBox.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${JSON.stringify(data, null, 2)}</pre>`;
             } catch (error) {
