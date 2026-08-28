@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProbeX - Digital Intelligence Platform | Free OSINT Tools</title>
-    <meta name="description" content="ProbeX - All-in-One Digital Intelligence Platform. Search mobile number info, email info, download videos, Pinterest images, UPI details and more.">
-    <meta name="keywords" content="OSINT tools, mobile number search, email search, Pinterest downloader, TeraBox downloader, UPI info">
+    <title>ProbeX - Digital Intelligence Platform</title>
     <style>
         * {
             margin: 0;
@@ -51,11 +49,6 @@
             color: #fff;
             text-decoration: none;
             font-size: 16px;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #00d4ff;
         }
 
         .btn-login {
@@ -67,11 +60,6 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            transition: transform 0.3s;
-        }
-
-        .btn-login:hover {
-            transform: scale(1.05);
         }
 
         .hero {
@@ -102,12 +90,6 @@
             cursor: pointer;
             font-size: 18px;
             font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
         }
 
         .tools-grid {
@@ -125,14 +107,6 @@
             border-radius: 15px;
             padding: 30px;
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
-            border-color: #00d4ff;
         }
 
         .tool-icon {
@@ -155,19 +129,6 @@
             text-align: center;
             padding: 30px;
             color: #666;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 15px 20px;
-            }
-            .hero h1 {
-                font-size: 32px;
-            }
-            .tools-grid {
-                padding: 20px;
-            }
         }
     </style>
 </head>
@@ -176,7 +137,6 @@
         <div class="logo">🔍 ProbeX</div>
         <div class="nav-links">
             <a href="#tools">Tools</a>
-            <a href="#features">Features</a>
             <button class="btn-login" onclick="loginWithGoogle()">Login with Gmail</button>
         </div>
     </nav>
@@ -223,28 +183,23 @@
             <h3>AI Chat</h3>
             <p>Perplexity AI chatbot assistant</p>
         </div>
-        <div class="tool-card">
-            <div class="tool-icon">📍</div>
-            <h3>State Info</h3>
-            <p>14 states data and information</p>
-        </div>
     </section>
 
     <footer class="footer">
-        <p>© 2024 ProbeX - Digital Intelligence Platform. All rights reserved.</p>
+        <p>© 2024 ProbeX - Digital Intelligence Platform</p>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script>
         const firebaseConfig = {
-  apiKey: "AIzaSyDW604GFPs_388u_agQ-0omCTuuwjq8BA0",
-  authDomain: "proex-tools.firebaseapp.com",
-  projectId: "proex-tools",
-  storageBucket: "proex-tools.firebasestorage.app",
-  messagingSenderId: "1022958761161",
-  appId: "1:1022958761161:web:d80262b7af25a374154918"
-};
+            apiKey: "AIzaSyDW604GFPs_388u_agQ-0omCTuuwjq8BA0",
+            authDomain: "proex-tools.firebaseapp.com",
+            projectId: "proex-tools",
+            storageBucket: "proex-tools.firebasestorage.app",
+            messagingSenderId: "1022958761161",
+            appId: "1:1022958761161:web:d80262b7af25a374154918"
+        };
 
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
