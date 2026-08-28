@@ -237,6 +237,8 @@
             <a class="nav-item" onclick="showSection('terabox')">📦 TeraBox</a>
             <a class="nav-item" onclick="showSection('social')">🎥 Social DL</a>
             <a class="nav-item" onclick="showSection('upi')">💳 UPI Info</a>
+            <a class="nav-item" onclick="showSection('punjab')">📍 Punjab Info</a>
+            <a class="nav-item" onclick="showSection('vehicle')">🚗 Vehicle Info</a>
             <a class="nav-item" onclick="showSection('chat')">🤖 AI Chat</a>
         </nav>
         <button class="btn-logout" onclick="logout()">🚪 Logout</button>
@@ -300,6 +302,24 @@
                 <button onclick="searchUPI()">Search</button>
             </div>
             <div id="upiResult" class="result-box"></div>
+        </section>
+
+        <section id="punjab" class="tool-section" style="display:none;">
+            <h3>📍 Punjab Phone Info</h3>
+            <div class="search-box">
+                <input type="text" id="punjabInput" placeholder="Enter phone number (e.g., 918699999997)">
+                <button onclick="searchPunjab()">Search</button>
+            </div>
+            <div id="punjabResult" class="result-box"></div>
+        </section>
+
+        <section id="vehicle" class="tool-section" style="display:none;">
+            <h3>🚗 Vehicle Info (RC Search)</h3>
+            <div class="search-box">
+                <input type="text" id="vehicleInput" placeholder="Enter vehicle number (e.g., RJ19CGXXXX)">
+                <button onclick="searchVehicle()">Search</button>
+            </div>
+            <div id="vehicleResult" class="result-box"></div>
         </section>
 
         <section id="chat" class="tool-section" style="display:none;">
@@ -499,36 +519,11 @@
             }
         }
 
-        async function askAI() {
-            const input = document.getElementById('chatInput').value;
-            const resultBox = document.getElementById('chatResult');
-            resultBox.innerHTML = '<div class="loading">Thinking...</div>';
+        async function searchPunjab() {
+            const input = document.getElementById('punjabInput').value;
+            const resultBox = document.getElementById('punjabResult');
+            resultBox.innerHTML = '<div class="loading">Searching...</div>';
             
             try {
-                const response = await fetch(`https://ansh-apis.is-dev.org/api/perplexity?key=shree&chat=${encodeURIComponent(input)}`);
-                const data = await response.json();
-                resultBox.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${JSON.stringify(data, null, 2)}</pre>`;
-            } catch (error) {
-                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
-            }
-        }
-
-        function downloadData(type) {
-            const content = document.getElementById(`${type}Result`).innerText;
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${type}_result.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function copyData(type) {
-            const content = document.getElementById(`${type}Result`).innerText;
-            navigator.clipboard.writeText(content);
-            alert('Copied!');
-        }
-    </script>
-</body>
-</html>
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/punjab?key=ansh&phone=${input}`);
+                cons
