@@ -350,7 +350,7 @@
             resultBox.innerHTML = '<div class="loading">Loading...</div>';
             
             try {
-                const response = await fetch(`https://alok-osint-tools.onrender.com/api/mobile?number=${input}`);
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/mobile?key=ansh&mobile=${number}`);
                 const data = await response.json();
                 
                 if (data.data && data.data.length > 0) {
