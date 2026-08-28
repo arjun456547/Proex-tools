@@ -103,10 +103,12 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .search-box input {
             flex: 1;
+            min-width: 200px;
             padding: 15px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -159,6 +161,7 @@
             display: flex;
             gap: 5px;
             margin-top: 10px;
+            flex-wrap: wrap;
         }
 
         .pin-actions button {
@@ -210,6 +213,11 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            color: #fff;
         }
 
         @media (max-width: 768px) {
@@ -335,7 +343,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script>
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDW604GFPs_388u_agQ-0omCTuuwjq8BA0",
             authDomain: "proex-tools.firebaseapp.com",
@@ -374,11 +381,9 @@
             const input = document.getElementById('mobileInput').value;
             const resultBox = document.getElementById('mobileResult');
             resultBox.innerHTML = '<div class="loading">Loading...</div>';
-            
             try {
                 const response = await fetch(`https://ansh-apis.is-dev.org/api/mobile?key=ansh&mobile=${input}`);
                 const data = await response.json();
-                
                 if (data.data && data.data.length > 0) {
                     const info = data.data[0];
                     resultBox.innerHTML = `
@@ -403,11 +408,9 @@
             const input = document.getElementById('emailInput').value;
             const resultBox = document.getElementById('emailResult');
             resultBox.innerHTML = '<div class="loading">Loading...</div>';
-            
             try {
                 const response = await fetch(`https://ansh-apis.is-dev.org/api/mobile?key=ansh&email=${input}`);
                 const data = await response.json();
-                
                 if (data.data && data.data.length > 0) {
                     const info = data.data[0];
                     resultBox.innerHTML = `
@@ -432,11 +435,9 @@
             const input = document.getElementById('pinInput').value;
             const resultBox = document.getElementById('pinResult');
             resultBox.innerHTML = '<div class="loading">Searching...</div>';
-            
             try {
                 const response = await fetch(`https://ansh-apis.is-dev.org/api/printrest?key=ansh&search=${input}`);
                 const data = await response.json();
-                
                 if (data.data && data.data.pins) {
                     resultBox.innerHTML = '';
                     data.data.pins.forEach(pin => {
@@ -469,11 +470,9 @@
             const input = document.getElementById('teraInput').value;
             const resultBox = document.getElementById('teraResult');
             resultBox.innerHTML = '<div class="loading">Fetching...</div>';
-            
             try {
                 const response = await fetch(`https://ansh-apis.is-dev.org/api/teraboxv2?key=ansh&url=${encodeURIComponent(input)}`);
                 const data = await response.json();
-                
                 if (data.data && data.data.stream_url) {
                     resultBox.innerHTML = `
                         <div class="result-card">
@@ -495,11 +494,10 @@
             const input = document.getElementById('socialInput').value;
             const resultBox = document.getElementById('socialResult');
             resultBox.innerHTML = '<div class="loading">Fetching...</div>';
-            
             try {
                 const response = await fetch(`https://ansh-apis.is-dev.org/api/socialdownloder?key=ansh&url=${encodeURIComponent(input)}`);
                 const data = await response.json();
-                resultBox.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${JSON.stringify(data, null, 2)}</pre>`;
+                resultBox.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
             } catch (error) {
                 resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
@@ -509,11 +507,10 @@
             const input = document.getElementById('upiInput').value;
             const resultBox = document.getElementById('upiResult');
             resultBox.innerHTML = '<div class="loading">Searching...</div>';
-            
             try {
                 const response = await fetch(`https://ansh-apis.is-dev.org/api/upi?key=shree&id=${input}`);
                 const data = await response.json();
-                resultBox.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${JSON.stringify(data, null, 2)}</pre>`;
+                resultBox.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
             } catch (error) {
                 resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
@@ -523,7 +520,57 @@
             const input = document.getElementById('punjabInput').value;
             const resultBox = document.getElementById('punjabResult');
             resultBox.innerHTML = '<div class="loading">Searching...</div>';
-            
             try {
                 const response = await fetch(`https://ansh-apis.is-dev.org/api/punjab?key=ansh&phone=${input}`);
-                cons
+                const data = await response.json();
+                resultBox.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function searchVehicle() {
+            const input = document.getElementById('vehicleInput').value;
+            const resultBox = document.getElementById('vehicleResult');
+            resultBox.innerHTML = '<div class="loading">Searching...</div>';
+            try {
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/vehicle?key=ansh&rc=${input}`);
+                const data = await response.json();
+                resultBox.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function askAI() {
+            const input = document.getElementById('chatInput').value;
+            const resultBox = document.getElementById('chatResult');
+            resultBox.innerHTML = '<div class="loading">Thinking...</div>';
+            try {
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/perplexity?key=shree&chat=${encodeURIComponent(input)}`);
+                const data = await response.json();
+                resultBox.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
+            }
+        }
+
+        function downloadData(type) {
+            const content = document.getElementById(`${type}Result`).innerText;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${type}_result.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyData(type) {
+            const content = document.getElementById(`${type}Result`).innerText;
+            navigator.clipboard.writeText(content);
+            alert('Copied!');
+        }
+    </script>
+</body>
+</html>
