@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProbeX - Digital Intelligence Platform | Free OSINT Tools</title>
+    <meta name="description" content="ProbeX - All-in-One Digital Intelligence Platform. Search mobile number info, email info, download videos, Pinterest images, UPI details and more.">
+    <meta name="keywords" content="OSINT tools, mobile number search, email search, Pinterest downloader, TeraBox downloader, UPI info">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .btn-login {
+            background: linear-gradient(45deg, #00d4ff, #7b2ff7);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: scale(1.05);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 150px 20px 80px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00d4ff, #7b2ff7, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #7b2ff7);
+            color: #fff;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+        }
+
+        .tool-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .tool-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #00d4ff;
+        }
+
+        .tool-card p {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .tools-grid {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🔍 ProbeX</div>
+        <div class="nav-links">
+            <a href="#tools">Tools</a>
+            <a href="#features">Features</a>
+            <button class="btn-login" onclick="loginWithGoogle()">Login with Gmail</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>All-in-One Digital Intelligence Platform</h1>
+        <p>10+ Powerful OSINT Tools in One Dashboard</p>
+        <button class="btn-primary" onclick="loginWithGoogle()">Get Started Free</button>
+    </section>
+
+    <section class="tools-grid" id="tools">
+        <div class="tool-card">
+            <div class="tool-icon">📱</div>
+            <h3>Mobile Info</h3>
+            <p>Search any mobile number details instantly</p>
+        </div>
+        <div class="tool-card">
+            <div class="tool-icon">📧</div>
+            <h3>Email Info</h3>
+            <p>Get email owner details and address</p>
+        </div>
+        <div class="tool-card">
+            <div class="tool-icon">🖼️</div>
+            <h3>Pinterest Search</h3>
+            <p>Search and download Pinterest images</p>
+        </div>
+        <div class="tool-card">
+            <div class="tool-icon">📦</div>
+            <h3>TeraBox Downloader</h3>
+            <p>Download TeraBox videos free</p>
+        </div>
+        <div class="tool-card">
+            <div class="tool-icon">🎥</div>
+            <h3>Social Downloader</h3>
+            <p>YouTube and Instagram video downloader</p>
+        </div>
+        <div class="tool-card">
+            <div class="tool-icon">💳</div>
+            <h3>UPI Info</h3>
+            <p>UPI ID details and information</p>
+        </div>
+        <div class="tool-card">
+            <div class="tool-icon">🤖</div>
+            <h3>AI Chat</h3>
+            <p>Perplexity AI chatbot assistant</p>
+        </div>
+        <div class="tool-card">
+            <div class="tool-icon">📍</div>
+            <h3>State Info</h3>
+            <p>14 states data and information</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2024 ProbeX - Digital Intelligence Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        function loginWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    window.location.href = 'dashboard.html';
+                })
+                .catch((error) => {
+                    alert('Login failed: ' + error.message);
+                });
+        }
+    </script>
+</body>
+</html>
