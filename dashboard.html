@@ -44,11 +44,11 @@
             text-decoration: none;
             border-radius: 8px;
             margin-bottom: 5px;
-            transition: all 0.3s;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .nav-item:hover, .nav-item.active {
+        .nav-item:hover {
             background: rgba(0, 212, 255, 0.1);
             color: #00d4ff;
         }
@@ -257,7 +257,7 @@
             <div id="mobileResult" class="result-box"></div>
         </section>
 
-        <section id="email" class="tool-section">
+        <section id="email" class="tool-section" style="display:none;">
             <h3>📧 Email Info</h3>
             <div class="search-box">
                 <input type="email" id="emailInput" placeholder="Enter email address">
@@ -266,7 +266,7 @@
             <div id="emailResult" class="result-box"></div>
         </section>
 
-        <section id="pinterest" class="tool-section">
+        <section id="pinterest" class="tool-section" style="display:none;">
             <h3>🖼️ Pinterest Search</h3>
             <div class="search-box">
                 <input type="text" id="pinInput" placeholder="Search images...">
@@ -275,7 +275,7 @@
             <div id="pinResult" class="result-grid"></div>
         </section>
 
-        <section id="terabox" class="tool-section">
+        <section id="terabox" class="tool-section" style="display:none;">
             <h3>📦 TeraBox Downloader</h3>
             <div class="search-box">
                 <input type="text" id="teraInput" placeholder="Paste TeraBox link here...">
@@ -284,7 +284,7 @@
             <div id="teraResult" class="result-box"></div>
         </section>
 
-        <section id="social" class="tool-section">
+        <section id="social" class="tool-section" style="display:none;">
             <h3>🎥 Social Media Downloader</h3>
             <div class="search-box">
                 <input type="text" id="socialInput" placeholder="Paste YouTube/Instagram URL...">
@@ -293,7 +293,7 @@
             <div id="socialResult" class="result-box"></div>
         </section>
 
-        <section id="upi" class="tool-section">
+        <section id="upi" class="tool-section" style="display:none;">
             <h3>💳 UPI Info</h3>
             <div class="search-box">
                 <input type="text" id="upiInput" placeholder="Enter UPI ID (e.g., name@upi)">
@@ -302,7 +302,7 @@
             <div id="upiResult" class="result-box"></div>
         </section>
 
-        <section id="chat" class="tool-section">
+        <section id="chat" class="tool-section" style="display:none;">
             <h3>🤖 AI Chat (Perplexity)</h3>
             <div class="search-box">
                 <input type="text" id="chatInput" placeholder="Ask anything...">
@@ -312,8 +312,44 @@
         </section>
     </main>
 
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script>
-        // Direct API functions
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW604GFPs_388u_agQ-0omCTuuwjq8BA0",
+            authDomain: "proex-tools.firebaseapp.com",
+            projectId: "proex-tools",
+            storageBucket: "proex-tools.firebasestorage.app",
+            messagingSenderId: "1022958761161",
+            appId: "1:1022958761161:web:d80262b7af25a374154918"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById('userName').textContent = user.displayName;
+                document.getElementById('userAvatar').src = user.photoURL;
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.tool-section').forEach(sec => {
+                sec.style.display = 'none';
+            });
+            document.getElementById(section).style.display = 'block';
+        }
+
         async function searchMobile() {
             const input = document.getElementById('mobileInput').value;
             const resultBox = document.getElementById('mobileResult');
@@ -322,7 +358,6 @@
             try {
                 const response = await fetch(`https://ansh-apis.is-dev.org/api/mobile?key=ansh&mobile=${input}`);
                 const data = await response.json();
-                console.log(data);
                 
                 if (data.data && data.data.length > 0) {
                     const info = data.data[0];
@@ -478,13 +513,6 @@
             }
         }
 
-        function showSection(section) {
-            document.querySelectorAll('.tool-section').forEach(sec => {
-                sec.style.display = 'none';
-            });
-            document.getElementById(section).style.display = 'block';
-        }
-
         function downloadData(type) {
             const content = document.getElementById(`${type}Result`).innerText;
             const blob = new Blob([content], { type: 'text/plain' });
@@ -501,37 +529,6 @@
             navigator.clipboard.writeText(content);
             alert('Copied!');
         }
-
-        // Firebase Auth
-        const firebaseConfig = {
-  apiKey: "AIzaSyDW604GFPs_388u_agQ-0omCTuuwjq8BA0",
-  authDomain: "proex-tools.firebaseapp.com",
-  projectId: "proex-tools",
-  storageBucket: "proex-tools.firebasestorage.app",
-  messagingSenderId: "1022958761161",
-  appId: "1:1022958761161:web:d80262b7af25a374154918"
-};
-
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                document.getElementById('userName').textContent = user.displayName;
-                document.getElementById('userAvatar').src = user.photoURL;
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
-
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.href = 'index.html';
-            });
-        }
     </script>
-
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
 </body>
 </html>
