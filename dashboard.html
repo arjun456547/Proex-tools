@@ -45,6 +45,7 @@
             border-radius: 8px;
             margin-bottom: 5px;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
         .nav-item:hover, .nav-item.active {
@@ -83,7 +84,6 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #00d4ff;
         }
 
         .tool-section {
@@ -231,15 +231,13 @@
     <aside class="sidebar">
         <div class="logo">🔍 ProbeX</div>
         <nav>
-            <a href="#" class="nav-item active">🏠 Dashboard</a>
-            <a href="#mobile" class="nav-item">📱 Mobile Info</a>
-            <a href="#email" class="nav-item">📧 Email Info</a>
-            <a href="#pinterest" class="nav-item">🖼️ Pinterest</a>
-            <a href="#terabox" class="nav-item">📦 TeraBox</a>
-            <a href="#social" class="nav-item">🎥 Social DL</a>
-            <a href="#upi" class="nav-item">💳 UPI Info</a>
-            <a href="#chat" class="nav-item">🤖 AI Chat</a>
-            <a href="#states" class="nav-item">📍 States</a>
+            <a class="nav-item" onclick="showSection('mobile')">📱 Mobile Info</a>
+            <a class="nav-item" onclick="showSection('email')">📧 Email Info</a>
+            <a class="nav-item" onclick="showSection('pinterest')">🖼️ Pinterest</a>
+            <a class="nav-item" onclick="showSection('terabox')">📦 TeraBox</a>
+            <a class="nav-item" onclick="showSection('social')">🎥 Social DL</a>
+            <a class="nav-item" onclick="showSection('upi')">💳 UPI Info</a>
+            <a class="nav-item" onclick="showSection('chat')">🤖 AI Chat</a>
         </nav>
         <button class="btn-logout" onclick="logout()">🚪 Logout</button>
     </aside>
@@ -314,53 +312,26 @@
         </section>
     </main>
 
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script>
-        const firebaseConfig = {
-  apiKey: "AIzaSyDW604GFPs_388u_agQ-0omCTuuwjq8BA0",
-  authDomain: "proex-tools.firebaseapp.com",
-  projectId: "proex-tools",
-  storageBucket: "proex-tools.firebasestorage.app",
-  messagingSenderId: "1022958761161",
-  appId: "1:1022958761161:web:d80262b7af25a374154918"
-};
-
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                document.getElementById('userName').textContent = user.displayName;
-                document.getElementById('userAvatar').src = user.photoURL;
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
-
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.href = 'index.html';
-            });
-        }
-
+        // Direct API functions
         async function searchMobile() {
             const input = document.getElementById('mobileInput').value;
             const resultBox = document.getElementById('mobileResult');
             resultBox.innerHTML = '<div class="loading">Loading...</div>';
             
             try {
-                const response = await fetch(`https://ansh-apis.is-dev.org/api/mobile?key=ansh&mobile=${number}`);
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/mobile?key=ansh&mobile=${input}`);
                 const data = await response.json();
+                console.log(data);
                 
                 if (data.data && data.data.length > 0) {
                     const info = data.data[0];
                     resultBox.innerHTML = `
                         <div class="result-card">
-                            <h4>👤 ${info.FULL_NAME}</h4>
-                            <p>📍 ${info.CUR_ADDRES}, ${info.CUR_ADDRE1 || ''}, ${info.CUR_CITY}, ${info.CUR_STATE} - ${info.CUR_PIN}</p>
-                            <p>📞 ${info.MOBILE}</p>
-                            <p>📧 ${info.EADDRESS}</p>
+                            <h4>👤 ${info.FULL_NAME || 'N/A'}</h4>
+                            <p>📍 ${info.CUR_ADDRES || ''}, ${info.CUR_ADDRE1 || ''}, ${info.CUR_CITY || ''}, ${info.CUR_STATE || ''} - ${info.CUR_PIN || ''}</p>
+                            <p>📞 ${info.MOBILE || 'N/A'}</p>
+                            <p>📧 ${info.EADDRESS || 'N/A'}</p>
                             <button onclick="downloadData('mobile')">📥 Download</button>
                             <button onclick="copyData('mobile')">📋 Copy</button>
                         </div>
@@ -369,7 +340,7 @@
                     resultBox.innerHTML = '<div class="error">No data found</div>';
                 }
             } catch (error) {
-                resultBox.innerHTML = '<div class="error">API Error - Check backend</div>';
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
         }
 
@@ -379,17 +350,17 @@
             resultBox.innerHTML = '<div class="loading">Loading...</div>';
             
             try {
-                const response = await fetch(`https://alok-osint-tools.onrender.com/api/mobile?email=${input}`);
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/mobile?key=ansh&email=${input}`);
                 const data = await response.json();
                 
                 if (data.data && data.data.length > 0) {
                     const info = data.data[0];
                     resultBox.innerHTML = `
                         <div class="result-card">
-                            <h4>👤 ${info.FULL_NAME}</h4>
-                            <p>📍 ${info.CUR_ADDRES}, ${info.CUR_ADDRE1 || ''}, ${info.CUR_CITY}, ${info.CUR_STATE} - ${info.CUR_PIN}</p>
-                            <p>📞 ${info.MOBILE}</p>
-                            <p>📧 ${info.EADDRESS}</p>
+                            <h4>👤 ${info.FULL_NAME || 'N/A'}</h4>
+                            <p>📍 ${info.CUR_ADDRES || ''}, ${info.CUR_ADDRE1 || ''}, ${info.CUR_CITY || ''}, ${info.CUR_STATE || ''} - ${info.CUR_PIN || ''}</p>
+                            <p>📞 ${info.MOBILE || 'N/A'}</p>
+                            <p>📧 ${info.EADDRESS || 'N/A'}</p>
                             <button onclick="downloadData('email')">📥 Download</button>
                             <button onclick="copyData('email')">📋 Copy</button>
                         </div>
@@ -398,7 +369,7 @@
                     resultBox.innerHTML = '<div class="error">No data found</div>';
                 }
             } catch (error) {
-                resultBox.innerHTML = '<div class="error">API Error</div>';
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
         }
 
@@ -408,7 +379,7 @@
             resultBox.innerHTML = '<div class="loading">Searching...</div>';
             
             try {
-                const response = await fetch(`https://alok-osint-tools.onrender.com/api/pinterest?search=${input}`);
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/printrest?key=ansh&search=${input}`);
                 const data = await response.json();
                 
                 if (data.data && data.data.pins) {
@@ -435,7 +406,7 @@
                     resultBox.innerHTML = '<div class="error">No images found</div>';
                 }
             } catch (error) {
-                resultBox.innerHTML = '<div class="error">API Error</div>';
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
         }
 
@@ -445,7 +416,7 @@
             resultBox.innerHTML = '<div class="loading">Fetching...</div>';
             
             try {
-                const response = await fetch(`https://alok-osint-tools.onrender.com/api/terabox?url=${encodeURIComponent(input)}`);
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/teraboxv2?key=ansh&url=${encodeURIComponent(input)}`);
                 const data = await response.json();
                 
                 if (data.data && data.data.stream_url) {
@@ -453,15 +424,15 @@
                         <div class="result-card">
                             <h4>📹 ${data.data.title}</h4>
                             <p>🆔 ID: ${data.data.id}</p>
-                            <button onclick="window.open('${data.data.stream_url}', '_blank')">📥 Download Video</button>
-                            <button onclick="window.open('${data.data.stream_url}', '_blank')">▶️ Watch Online</button>
+                            <button onclick="window.open('${data.data.stream_url}', '_blank')">📥 Download</button>
+                            <button onclick="window.open('${data.data.stream_url}', '_blank')">▶️ Watch</button>
                         </div>
                     `;
                 } else {
                     resultBox.innerHTML = '<div class="error">No video found</div>';
                 }
             } catch (error) {
-                resultBox.innerHTML = '<div class="error">API Error</div>';
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
         }
 
@@ -471,11 +442,11 @@
             resultBox.innerHTML = '<div class="loading">Fetching...</div>';
             
             try {
-                const response = await fetch(`https://alok-osint-tools.onrender.com/api/social?url=${encodeURIComponent(input)}`);
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/socialdownloder?key=ansh&url=${encodeURIComponent(input)}`);
                 const data = await response.json();
-                resultBox.innerHTML = JSON.stringify(data, null, 2);
+                resultBox.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${JSON.stringify(data, null, 2)}</pre>`;
             } catch (error) {
-                resultBox.innerHTML = '<div class="error">API Error</div>';
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
         }
 
@@ -485,11 +456,11 @@
             resultBox.innerHTML = '<div class="loading">Searching...</div>';
             
             try {
-                const response = await fetch(`https://alok-osint-tools.onrender.com/api/upi?id=${input}`);
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/upi?key=shree&id=${input}`);
                 const data = await response.json();
-                resultBox.innerHTML = JSON.stringify(data, null, 2);
+                resultBox.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${JSON.stringify(data, null, 2)}</pre>`;
             } catch (error) {
-                resultBox.innerHTML = '<div class="error">API Error</div>';
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
         }
 
@@ -499,12 +470,19 @@
             resultBox.innerHTML = '<div class="loading">Thinking...</div>';
             
             try {
-                const response = await fetch(`https://alok-osint-tools.onrender.com/api/chat?query=${encodeURIComponent(input)}`);
+                const response = await fetch(`https://ansh-apis.is-dev.org/api/perplexity?key=shree&chat=${encodeURIComponent(input)}`);
                 const data = await response.json();
                 resultBox.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${JSON.stringify(data, null, 2)}</pre>`;
             } catch (error) {
-                resultBox.innerHTML = '<div class="error">API Error</div>';
+                resultBox.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
             }
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.tool-section').forEach(sec => {
+                sec.style.display = 'none';
+            });
+            document.getElementById(section).style.display = 'block';
         }
 
         function downloadData(type) {
@@ -521,8 +499,39 @@
         function copyData(type) {
             const content = document.getElementById(`${type}Result`).innerText;
             navigator.clipboard.writeText(content);
-            alert('Copied to clipboard!');
+            alert('Copied!');
+        }
+
+        // Firebase Auth
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById('userName').textContent = user.displayName;
+                document.getElementById('userAvatar').src = user.photoURL;
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
         }
     </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
 </body>
 </html>
